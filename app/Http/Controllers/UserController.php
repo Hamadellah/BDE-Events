@@ -11,10 +11,11 @@ use App\Models\Event;
 class UserController extends Controller
 {      
     public function index(){
+        $event1 = Event::withCount('reservation')->get();
         $user = Auth::user();
         $event = Event::all();
         if($user->role=="admin"){
-            return view("dashboard-admin",compact("user"));
+            return view("dashboard-admin",compact("user","event1"));
         }else{
             return view("dashboard-student",compact("user","event"));
         }

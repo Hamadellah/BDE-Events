@@ -6,9 +6,10 @@
     @csrf
     <button type="submit">Create Event</button>
 </form>
-@foreach ($event as $event)
+@foreach ($event1 as $event)
 
 {{ $event->title }}
+{{ $event->capacity - $event->reservation_count }}
 
 
 @endforeach

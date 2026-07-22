@@ -46,9 +46,6 @@ class EventController extends Controller
         ]);
         return redirect()->route("index")->with("success","Event created successfully");
     }
-    public function TableBord(){
-        $event= Event::withCount('reservation')->get();
-        return redirect()->route("index",compact("event"));
-    }
+
 
 }
