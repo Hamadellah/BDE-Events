@@ -17,4 +17,3 @@ WHERE reservations.user_id=$userid");
        
     }
 }
-F
