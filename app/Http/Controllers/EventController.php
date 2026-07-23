@@ -9,11 +9,20 @@ use Symfony\Contracts\Service\Attribute\Required;
 class EventController extends Controller
 {
     public function showform(){
-        return view("formevent");
+        return view("/forms/formevent");
     }
     public function StoreEvent(Request $request){
+ $request->validate([
+    "title" => "required",
+    "description" => "required|max:255",
+    "event_date" => "required|date|after_or_equal:today",
+    "starr_time" => "required|date_format:H:i|before:end_time",
+    "end_time" => "required|date_format:H:i|after:starr_time",
+    "location" => "required",
+    "price" => "required|numeric|min:0",
+    "capacity" => "required|integer|min:1",
+]);
         $user=auth()->id();
-        
         $title=$request->input("title");
         $description = $request->input("description");
         $event_date = $request->input("event_date");
@@ -22,16 +31,6 @@ class EventController extends Controller
         $price = $request->input("price");
         $location = $request->input("location");
         $capacity = $request->input("capacity");
-        $request->validate([
-            "title" => "required",
-            "description" => "required|max:255",
-            "event_date" => "required|date|after_or_equal:today",
-            "starr_time" => "required|date_format:H:i",
-            "end_time" => "required|date_format:H:i",
-            "location" => "required",
-            "price" => "required|numeric|min:0",
-            "capacity" => "required|integer|min:1"
-        ]);
         Event::create([
             "title" => $title,
             "description" => $description,

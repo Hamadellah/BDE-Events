@@ -15,9 +15,9 @@ class UserController extends Controller
         $user = Auth::user();
         $event = Event::all();
         if($user->role=="admin"){
-            return view("dashboard-admin",compact("user","event1"));
+            return view("/dashboard/dashboard-admin",compact("user","event1"));
         }else{
-            return view("dashboard-student",compact("user","event"));
+            return view("/dashboard/dashboard-student",compact("user","event"));
         }
         
     }
