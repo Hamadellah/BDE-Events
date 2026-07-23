@@ -17,3 +17,4 @@ WHERE reservations.user_id=$userid");
        
     }
 }
+style: improve dashboard interface
