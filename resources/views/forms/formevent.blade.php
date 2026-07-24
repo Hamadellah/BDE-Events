@@ -58,9 +58,11 @@
             </div>
 
             <!-- Form -->
-            <form action="stor_event" method="POST" class="space-y-5">
+                <form action="{{ isset($event) ? route('events.update', $event->id) : route('stor_event') }}" method="POST">
                 @csrf
-@method('POST')
+                @isset($event)
+                @method('PUT')
+                @endisset
                 <!-- Title Field -->
                 <div class="space-y-1.5">
                     <label for="title" class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Titre de l'événement</label>
@@ -70,7 +72,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                             </svg>
                         </span>
-                        <input type="text" id="title" name="title"  placeholder="Ex: Conférence Tech 2026"
+                        <input type="text" id="title" name="title" value="{{ $event->title ?? '' }}"  placeholder="Ex: Conférence Tech 2026"
                             class="w-full pl-11 pr-4 py-3 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300">
                     </div>
                 @error('title')
@@ -82,7 +84,7 @@
                 <div class="space-y-1.5">
                     <label for="description" class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Description</label>
                     <div class="relative">
-                        <textarea id="description" name="description" rows="4"  placeholder="Décrivez l'événement..."
+                        <input id="description" value="{{ $event->description ?? ''  }}" name="description" rows="4"   placeholder="Décrivez l'événement..."
                             class="w-full p-4 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300 resize-none"></textarea>
                     </div>
                 @error('description')
@@ -96,7 +98,7 @@
                     <div class="space-y-1.5">
                         <label for="event_date" class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Date</label>
                         <div class="relative">
-                            <input type="date" id="event_date" name="event_date" required
+                            <input type="date" id="event_date" name="event_date" value="{{ $event->event_date ?? '' }}"
                                 class="w-full px-4 py-3 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300 cursor-pointer">
                         </div>
                     @error('event_date')
@@ -109,7 +111,7 @@
                     <div class="space-y-1.5">
                         <label for="starr_time" class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Heure de début</label>
                         <div class="relative">
-                            <input type="time" id="starr_time" name="starr_time" required
+                            <input type="time" id="starr_time" name="starr_time" value="{{ $event->start_time ?? '' }}"
                                 class="w-full px-4 py-3 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300 cursor-pointer">
                         </div>
                     @error('starr_time')
@@ -121,7 +123,7 @@
                     <div class="space-y-1.5">
                         <label for="end_time" class="block text-xs font-bold text-slate-600 uppercase tracking-wider">Heure de fin</label>
                         <div class="relative">
-                            <input type="time" id="end_time" name="end_time" required
+                            <input type="time" id="end_time" name="end_time" value="{{ $event->end_time ?? '' }}"
                                 class="w-full px-4 py-3 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300 cursor-pointer">
                         </div>
                     @error('end_time')
@@ -140,7 +142,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
                         </span>
-                        <input type="text" id="location" name="location"  placeholder="Ex: Casablanca, Hôtel X"
+                        <input type="text" id="location" name="location" value="{{ $event->location ?? '' }}"  placeholder="Ex: Casablanca, Hôtel X"
                             class="w-full pl-11 pr-4 py-3 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300">
                     </div>
                 </div>
@@ -154,7 +156,7 @@
                             <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 font-bold text-xs">
                                 DH
                             </span>
-                            <input type="number" id="price" name="price" step="0.01" min="0"  placeholder="DEFAULT: 0.00"
+                            <input type="number" value="{{ $event->price ?? '' }}" id="price" name="price" step="0.01" min="0"  placeholder="DEFAULT: 0.00"
                                 class="w-full pl-11 pr-4 py-3 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300">
                         </div>
                     </div>
@@ -168,7 +170,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                                 </svg>
                             </span>
-                            <input type="number" id="capacity" name="capacity" min="1"  placeholder="100"
+                            <input type="number" value="{{ $event->capacity ?? '' }}" id="capacity" name="capacity" min="1"  placeholder="100"
                                 class="w-full pl-11 pr-4 py-3 bg-slate-50/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-300">
                         </div>
                     </div>

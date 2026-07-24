@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Symfony\Contracts\Service\Attribute\Required;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -45,6 +47,52 @@ class EventController extends Controller
         ]);
         return redirect()->route("index")->with("success","Event created successfully");
     }
+    public function EventDestroy($id){
+        $event=Event::findOrFail($id);
+        $event->delete();
+        return redirect()->back()->with("success","Event deleted successfully");
+        
+    }
+    public function EventShow($id){
+        $event=Event::findOrFail($id);
+        return view("/forms/formevent",compact("event"));
+    }
+    public function EventUpdate(Request $request, $id){
+        //dd($request);
+        $event=Event::findOrFail($id);
+        $request->validate([
+    "title" => "required",
+    "description" => "required|max:255",
+    "event_date" => "required|date|after_or_equal:today",
+    "starr_time" => "required|before:end_time",
+    "end_time" => "required|after:starr_time",
+    "location" => "required",
+    "price" => "required|numeric|min:0",
+    "capacity" => "required|integer|min:1",
+        ]);
+        $user=auth()->id();
+        $title=$request->input("title");
+        $description = $request->input("description");
+        $event_date = $request->input("event_date");
+        $starr_time = $request->input("starr_time");
+        $end_time = $request->input("end_time");
+        $price = $request->input("price");
+        $location = $request->input("location");
+        $capacity = $request->input("capacity");
+        $event->update([
+            "title" => $title,
+            "description" => $description,
+            "event_date" => $event_date,
+            "start_time" => $starr_time,
+            "end_time" => $end_time,
+            "location" => $location,
+            "price" => $price,
+            "capacity" => $capacity,
+            "created_by" => $user
+        ]);
+        return redirect()->route("index")->with("message","event updated seccesfully");
+    }
 
+    
 
 }

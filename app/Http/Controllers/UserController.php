@@ -25,7 +25,7 @@ class UserController extends Controller
     public function register(Request $request){
         // dd($request);
         $name=$request->input("name");
-        $email=$request->input("email");
+        $email=$request->input("emaiXl");
         $password=$request->input("password");
         $role=$request->input("role");
         $request->validate([

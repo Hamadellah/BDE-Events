@@ -1,4 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -49,7 +48,6 @@
                 <div class="relative mb-4">
                     <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-1 shadow-md">
                         <div class="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
-                            <!-- Display User Initials or Avatar Image -->
                             <span class="text-2xl font-black text-indigo-600">
                                 {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 2)) }}
                             </span>
@@ -105,7 +103,7 @@
                     <p class="text-xs text-slate-400">Gérez vos réservations et capacités</p>
                 </div>
 
-                <form method="POST" action="{{ route('create-event') }}">
+                <form method="GET" action="{{ route('create-event') }}">
                     @csrf
                     <button type="submit" class="group relative inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-slate-900/10 hover:shadow-xl hover:shadow-slate-900/20 hover:-translate-y-0.5 overflow-hidden">
                         <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-x"></span>
@@ -129,10 +127,39 @@
                         <div class="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-indigo-400/20 to-pink-400/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none"></div>
 
                         <div>
-                            <!-- Title -->
-                            <h2 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors duration-300 line-clamp-2 leading-tight mb-5">
-                                {{ $event->title }}
-                            </h2>
+                            <!-- Header Card: Title & Actions (Update/Delete) -->
+                            <div class="flex items-start justify-between gap-3 mb-4">
+                                <h2 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors duration-300 line-clamp-2 leading-tight">
+                                    {{ $event->title }}
+                                </h2>
+
+                                <!-- ACTION BUTTONS (UPDATE & DELETE) -->
+                                <div class="flex items-center gap-1.5 shrink-0">
+                                    <!-- Edit / Update Button -->
+
+                                    <a href="{{ route('events.edit', $event->id) }}"
+   title="Modifier"
+   class="p-2 rounded-xl bg-slate-100 hover:bg-amber-50 text-slate-500 hover:text-amber-600 border border-slate-200/60 hover:border-amber-200 transition-all duration-200">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+    </svg>
+</a>
+
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                title="Supprimer"
+                                                class="p-2 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200/60 hover:border-rose-200 transition-all duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
 
                             <!-- Capacity Grid -->
                             <div class="grid grid-cols-2 gap-3 mb-5">
@@ -145,7 +172,7 @@
                                     <span class="text-lg font-extrabold text-indigo-600">{{ $event->reservation_count }}</span>
                                 </div>
                             </div>
-
+                        </div>
 
                         <!-- Footer Badge -->
                         <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
