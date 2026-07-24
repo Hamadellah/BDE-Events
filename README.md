@@ -1,59 +1,222 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 BDE Events Management
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Application web développée avec **Laravel** permettant à un Bureau des Étudiants (BDE) de gérer les événements et aux étudiants de réserver leur place et de consulter leurs billets.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# 📖 Description
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Cette application permet aux administrateurs du BDE de créer et gérer les événements étudiants, tandis que les étudiants peuvent consulter les événements disponibles, réserver une place et accéder à leurs billets numériques.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Le projet a été réalisé dans le cadre d'un brief de développement web.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+# ✨ Fonctionnalités
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 👨‍💼 Administrateur (BDE)
 
-## Laravel Sponsors
+- Authentification
+- Création d'événements
+- Modification d'événements
+- Suppression d'événements
+- Liste des événements
+- Suivi des réservations
+- Affichage du nombre de places restantes
+- Accès sécurisé via Middleware `IsAdmin`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 👨‍🎓 Étudiant
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Inscription / Connexion
+- Consultation des événements
+- Réservation d'un événement
+- Consultation de l'espace **Mes Billets**
+- Génération automatique d'un ticket avec un code unique
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 🔐 Sécurité
 
-## Code of Conduct
+- Authentification Laravel
+- Middleware personnalisé **IsAdmin**
+- Protection des routes `/admin/*`
+- Empêche une double réservation pour le même événement
+- Vérification de la capacité maximale avant chaque réservation
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+# 🛠️ Technologies utilisées
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Laravel
+- PHP
+- MySQL
+- Blade
+- Bootstrap
+- HTML
+- CSS
+- JavaScript
+- Git & GitHub
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 🗄️ Base de données
+
+Le projet est composé principalement des tables suivantes :
+
+- users
+- events
+- reservations
+- tickets
+
+### Relations
+
+- Un utilisateur peut effectuer plusieurs réservations.
+- Un événement possède plusieurs réservations.
+- Une réservation génère un seul ticket.
+
+---
+
+# 📂 Structure du projet
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   └── Middleware/
+├── Models/
+database/
+resources/
+routes/
+```
+
+---
+
+# 🚀 Installation
+
+### Cloner le projet
+
+```bash
+git clone https://github.com/votre-username/bde-events.git
+```
+
+### Accéder au dossier
+
+```bash
+cd bde-events
+```
+
+### Installer les dépendances
+
+```bash
+composer install
+```
+
+### Copier le fichier d'environnement
+
+```bash
+cp .env.example .env
+```
+
+### Générer la clé
+
+```bash
+php artisan key:generate
+```
+
+### Configurer la base de données
+
+Modifier le fichier **.env**
+
+```env
+DB_DATABASE=bde_events
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### Exécuter les migrations
+
+```bash
+php artisan migrate
+```
+
+### Lancer le serveur
+
+```bash
+php artisan serve
+```
+
+---
+
+# 📌 Règles métier
+
+- Seul un administrateur peut gérer les événements.
+- Un étudiant ne peut réserver qu'une seule fois le même événement.
+- Impossible de réserver un événement complet.
+- Chaque ticket possède un code unique.
+- Les places restantes sont calculées automatiquement.
+
+---
+
+# 👥 Rôles
+
+## Admin
+
+- Gestion des événements
+- Consultation des réservations
+- Tableau de bord
+
+## Étudiant
+
+- Réserver un événement
+- Consulter ses billets
+
+---
+
+# 📸 Captures d'écran
+
+Ajouter ici :
+
+- Dashboard Admin
+- Liste des événements
+- Formulaire de création
+- Réservation
+- Mes billets
+
+---
+
+# 📊 Diagrammes
+
+Le dépôt contient :
+
+- Diagramme UML (Use Case)
+![Capture d'écran 2026-07-20 113851.png](../Capture%20d'écran%202026-07-20%20113851.png)
+- Diagramme de classes
+- ![diagramme de class 1-2.png](../diagramme%20de%20class%201-2.png)
+- ERD (Entity Relationship Diagram)
+![diagramme ERD1.png](../diagramme%20ERD1.png)
+---
+
+# 📁 Livrables
+
+- ✅ GitHub
+- ✅ JIRA
+- ✅ Canva
+- ✅ README
+- ✅ Diagrammes UML
+- ✅ ERD
+
+---
+
+# 📄 Auteur
+
+**Othmane Hamadellah**
+
+Développeur Web Full Stack
+
+---
+
+# 📜 Licence
+
+Projet réalisé dans le cadre d'un brief pédagogique.
